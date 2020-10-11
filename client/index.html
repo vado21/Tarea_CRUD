@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<!-- Eduardo Andre Martinez Romero A00819264 -->
+
+<head>
+    <title>TAREA CRUD</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", (_) => {
+            let addItem = () => {
+                var Tipo = document.getElementById("type").value;
+                var Nombre = document.getElementById("nombre").value;
+                var Informacion = document.getElementById("informacion").value;
+                var carta = document.getElementById("carta");
+                if (Nombre.length > 0 && Tipo.length > 0) {
+                    axios.post(`http://localhost:3003/${Tipo}/${Nombre}`, {
+                            informacion: Informacion
+                        })
+                        .then(function(response) {
+                            //handle success
+                            console.log(response);
+                            if (response.data != "El pokemon no existe") {
+                                document.querySelector(".response").innerHTML = "La iformacion se guardo"
+                            } else {
+                                document.querySelector(".response").innerHTML = "Pokemon No existe"
+                            }
+                        })
+                        .catch(function(response) {
+                            //handle error
+                            console.log(response);
+                        });
+                } else {
+                    document.querySelector(".response").innerHTML = "Ingresa un valor"
+                }
+
+            }
+            document.getElementById("add-item").addEventListener("click", addItem);
+        });
+    </script>
+    <style>
+        body {
+            background-color: powderblue;
+        }
+        
+        p {
+            color: red;
+        }
+        
+        .carta {
+            background-color: white;
+            border: 3px solid;
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Pokemon Cards</p>
+    <div id="container" class="noColor">
+        Ingresa Tipo: <input type="text" id="type">Nombre:<input type="text" id="nombre">Informacion:<input type="text" id="informacion">
+        <button id="add-item"> Buscar</button>
+    </div>
+    <div class="response"></div>
+    <div id="carta">
+    </div>
+</body>
+
+</html>
